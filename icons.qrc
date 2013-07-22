@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>icons/green-pointer.png</file>
+        <file>icons/hand-pointer.png</file>
+        <file>icons/tool-pointer.png</file>
+        <file>icons/splash.jpg</file>
+    </qresource>
+</RCC>
