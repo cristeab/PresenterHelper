@@ -17,7 +17,8 @@ be used in order to make sure that the entire screen area is covered by the
 pointer. The number of swipes needed to activate a page switch can be changed,
 the default value is one, a value of zero disables the swipe gesture, while
 a value superior to one can be used if the slide switch happens too often
-during presentation.
+during presentation. By default pointer coordinates are filtered with a 
+Kalman filter that can be disabled if needed.
    The following shortcut keys are available:
 - F1: shows the help
 - F2: shows the configuration dialog

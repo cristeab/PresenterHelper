@@ -55,6 +55,7 @@ private:
     cv::Mat_<float> measurement;
 	ConfigDialog *config;
 	bool showCoords;
+	bool useKalmanFilter;
 };
 
 #endif // PresenterHelper_H

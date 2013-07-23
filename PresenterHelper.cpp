@@ -26,7 +26,8 @@ PresenterHelper::PresenterHelper(QWidget *parent)
 	KF(cv::KalmanFilter(4, 2, 0)),
 	measurement(cv::Mat_<float>(2,1)),
 	config(NULL),
-	showCoords(false)
+	showCoords(false),
+	useKalmanFilter(true)
 {
 	setWindowFlags(Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint);
 
@@ -111,7 +112,8 @@ void PresenterHelper::showHelp()
 		"pointer. The number of swipes needed to activate a page switch can be changed, "
 		"the default value is one, a value of zero disables the swipe gesture, while "
 		"a value superior to one can be used if the slide switch happens too often "
-		"during presentation.\n"
+		"during presentation. By default pointer coordinates are filtered with a "
+		"Kalman filter that can be disabled if needed.\n"
 		"   The following shortcut keys are available:\n"
 		"- F1: shows this help\n"
 		"- F2: shows the configuration dialog\n"
@@ -121,13 +123,15 @@ void PresenterHelper::showHelp()
 
 void PresenterHelper::onMoveCursor(int x, int y)
 {
-	//filter position
-	KF.predict();
-	measurement(0) = x;
-	measurement(1) = y;
-	cv::Mat estimated = KF.correct(measurement);
-	x = static_cast<int>(estimated.at<float>(0));
-	y = static_cast<int>(estimated.at<float>(1));
+	if (useKalmanFilter) {
+		//filter position
+		KF.predict();
+		measurement(0) = x;
+		measurement(1) = y;
+		cv::Mat estimated = KF.correct(measurement);
+		x = static_cast<int>(estimated.at<float>(0));
+		y = static_cast<int>(estimated.at<float>(1));
+	}
 	move(x, y);
 }
 
@@ -216,6 +220,7 @@ void PresenterHelper::initKalman()
 #define SCALE_FACTOR "ScaleFactor"
 #define NB_SWIPES "NbSwipes"
 #define TAP_FOR_FORWARD_SWITCH "TapForForwardSwitch"
+#define USE_KALMAN_FILTER "UseKalmanFilter"
 
 void PresenterHelper::loadSettings()
 {
@@ -227,6 +232,7 @@ void PresenterHelper::loadSettings()
 	scaleFactor = settings.value(SCALE_FACTOR, SCALE_FACTOR_x100/100.0).toDouble();
 	nbSwipes = settings.value(NB_SWIPES, NB_SWIPES_PER_PAGE_SWITCH).toInt();
 	tapForForwardSwitch = settings.value(TAP_FOR_FORWARD_SWITCH, false).toBool();
+	useKalmanFilter = settings.value(USE_KALMAN_FILTER, true).toBool();
 }
 
 void PresenterHelper::saveSettings()
@@ -239,4 +245,5 @@ void PresenterHelper::saveSettings()
 	settings.setValue(SCALE_FACTOR, scaleFactor);
 	settings.setValue(NB_SWIPES, nbSwipes);
 	settings.setValue(TAP_FOR_FORWARD_SWITCH, tapForForwardSwitch);
+	settings.setValue(USE_KALMAN_FILTER, useKalmanFilter);
 }

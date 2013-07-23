@@ -52,6 +52,7 @@ ConfigDialog::ConfigDialog(QWidget *parent, PresenterHelper *p) :
 	ui->spinBoxScaleFactor->setValue(static_cast<int>(pres->scaleFactor*100));
 	ui->spinBoxNbSwipes->setValue(pres->nbSwipes);
 	ui->checkBoxTap->setChecked(pres->tapForForwardSwitch);
+	ui->checkBoxKalman->setChecked(pres->useKalmanFilter);
 	showCoords(pres->scrWidth/2, pres->scrHeight/2);
 
 	connect(ui->pushButtonOk, SIGNAL(clicked(bool)), this, SLOT(onOk()));
@@ -95,6 +96,7 @@ void ConfigDialog::onApply()
 	pres->nbSwipes = ui->spinBoxNbSwipes->value();
 	pres->swipeCounter = 0;
 	pres->tapForForwardSwitch = (Qt::Checked == ui->checkBoxTap->checkState());
+	pres->useKalmanFilter = (Qt::Checked == ui->checkBoxKalman->checkState());
 }
 
 void ConfigDialog::onBrowse()
