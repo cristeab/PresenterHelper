@@ -169,5 +169,6 @@ void GestureThread::setupPipeline()
 	} else
 	{
 		QMessageBox::warning(NULL, "Presenter Helper", "Cannot init gesture camera");
+		::TerminateProcess(::GetCurrentProcess(), EXIT_FAILURE);
 	}
 }

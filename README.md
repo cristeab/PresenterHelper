@@ -25,3 +25,13 @@ Kalman filter that can be disabled if needed.
 - F2: shows the configuration dialog
 - F3: minimizes the pointer
 - Ctrl+q: quits the application
+
+
+Installation and Utilisation
+
+For installation use the provided installer. Application executable and required libraries are installed
+in the chosen location. Also an uninstaller is provided. Currently, the drivers needed by Creative Interactive
+Perceptual Camera need to be installed separately, before running the application.
+This application has been tested on Windows 7, 32 bits and Windows 8. Please be aware that this application
+has soft-real time requirements, so do not use this application on a heavily loaded computer, that might slow
+down the rate at which image frames are received from the camera.
