@@ -1,5 +1,4 @@
 #include <QMessageBox>
-#include <QApplication>
 #include <QDebug>
 #include "PresenterHelper.h"
 #include "GestureThread.h"
@@ -44,6 +43,11 @@ GestureThread::GestureThread(PresenterHelper *obj) : QThread(), mainWnd(obj)
 	connect(this, SIGNAL(moveCursor(int,int)), mainWnd, SLOT(onMoveCursor(int,int)));
 	connect(this, SIGNAL(tap(int,int)), mainWnd, SLOT(onTap(int,int)));
 	connect(this, SIGNAL(showCoords(int,int)), mainWnd, SLOT(onShowCoords(int,int)));
+}
+
+GestureThread::~GestureThread()
+{
+	delete pipeline;
 }
 
 void GestureThread::run()

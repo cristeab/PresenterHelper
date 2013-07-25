@@ -1,4 +1,3 @@
-#include <QCursor>
 #include <QDebug>
 #include <QDesktopWidget>
 #include <QBitmap>
@@ -6,7 +5,6 @@
 #include <QApplication>
 #include <QAction>
 #include <QSettings>
-#include <windows.h>
 #include "GestureThread.h"
 #include "PresenterHelper.h"
 #include "ConfigDialog.h"
@@ -102,10 +100,12 @@ void PresenterHelper::showHelp()
 		"the screen while the presenter moves his hand in front of the camera.\n"
 		"   Any presentation software can be used as long as slides are changed using "
 		"left/right arrow keys. Optionally animations can be activated with the "
-		"mouse right click.\n"
+		"mouse left click.\n"
 		"   The presenter changes the slides using left/right swipes and a single tap "
 		"can be used to either activate presentation animations or can be assigned "
-		"as right swipe. If needed, the pointer can be completely hidden.\n"
+		"as left swipe. If needed, the pointer can be completely hidden. "
+		"In order to send the key or mouse events to the presentation application, make "
+		"sure that the presentation application has the focus during presentations.\n"
 		"   The pointer icon (*.jpg and *.png image formats are supported) and "
 		"its size are configurable, also the coordinates of the "
 		"upper-left corner of the area covered by the pointer. A scaling factor can "
@@ -119,7 +119,10 @@ void PresenterHelper::showHelp()
 		"- F1: shows this help\n"
 		"- F2: shows the configuration dialog\n"
 		"- F3: minimizes the pointer\n"
-		"- Ctrl+q: quits the application");
+		"- Ctrl+q: quits the application\n"
+		"In order to receive the shortcut keys the application needs to have "
+		"the focus (see above). In order to have the focus either click on "
+		"the application icon on the main toolbar or click the pointer.");
 }
 
 void PresenterHelper::onMoveCursor(int x, int y)
@@ -140,6 +143,7 @@ void PresenterHelper::onTap(int x, int y)
 {
 	if (!tapForForwardSwitch)
 	{
+		qDebug() << "onTap: mouse event";
 		mouse_event(MOUSEEVENTF_LEFTDOWN, static_cast<int>(x), 
 			static_cast<int>(y), 0, 0);
 		mouse_event(MOUSEEVENTF_LEFTUP, static_cast<int>(x), 
@@ -147,8 +151,9 @@ void PresenterHelper::onTap(int x, int y)
 	}
 	else
 	{
-		keybd_event(VK_LEFT & 0xff, 0, 0, 0);
-		keybd_event(VK_LEFT & 0xff, 0, KEYEVENTF_KEYUP, 0);
+		qDebug() << "onTap: keyboard event";
+		keybd_event(VK_RIGHT & 0xff, 0, 0, 0);
+		keybd_event(VK_RIGHT & 0xff, 0, KEYEVENTF_KEYUP, 0);
 	}
 }
 

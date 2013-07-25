@@ -2,7 +2,6 @@
 #include <QSplashScreen>
 #include <QDebug>
 #include <QPainter>
-#include <Windows.h>
 #include "PresenterHelper.h"
 
 int main(int argc, char *argv[])

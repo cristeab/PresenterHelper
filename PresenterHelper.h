@@ -2,7 +2,6 @@
 #define PresenterHelper_H
 
 #include <QtWidgets/QMainWindow>
-#include <QTimer>
 #include <Windows.h>
 #include "opencv2/video/tracking.hpp"
 #include "util_pipeline.h"
@@ -14,9 +13,9 @@ class PresenterHelper : public QMainWindow
 {
 	Q_OBJECT
 	friend class GestureThread;
-	friend ConfigDialog;
+	friend class ConfigDialog;
 public:
-	PresenterHelper(QWidget *parent = 0);
+	explicit PresenterHelper(QWidget *parent = 0);
 	~PresenterHelper();
 	enum {OFFSET_X = 200, OFFSET_Y = 100, 
 		SCALE_FACTOR_x100 = 100,
@@ -42,7 +41,6 @@ private:
 	int scrHeight;
 	pxcU32 imgWidth;
 	pxcU32 imgHeight;
-	QTimer timer;
 	QString pointerIconPath;
 	int pointerSize;
 	int offsetX;

@@ -10,7 +10,8 @@ class GestureThread : public QThread
 {
 	Q_OBJECT
 public:
-	GestureThread(PresenterHelper *obj);
+	explicit GestureThread(PresenterHelper *obj);
+	~GestureThread();
 protected:
 	void run();
 signals:

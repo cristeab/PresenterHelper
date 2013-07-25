@@ -22,7 +22,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 qt5_wrap_ui(UIS_HDRS ConfigDialog.ui)
 
 set (PresenterHelper_HDRS PresenterHelper.h GestureThread.h ConfigDialog.h)
-set (PresenterHelper_SRCS PresenterHelper.cpp GestureThread.cpp ConfigDialog.cpp main.cpp)
+set (PresenterHelper_SRCS PresenterHelper.cpp GestureThread.cpp ConfigDialog.cpp main.cpp PresenterHelper.rc)
 
 set (PresenterHelper_RSC icons.qrc)
 QT5_ADD_RESOURCES (RSCS ${PresenterHelper_RSC})
@@ -57,6 +57,8 @@ SET(MSVC_DLLS "msvcp110.dll;msvcr110.dll")
 foreach(line ${MSVC_DLLS})
   install(FILES "D:/Program Files (x86)/Microsoft Visual Studio 11.0/VC/redist/x86/Microsoft.VC110.CRT/${line}" DESTINATION .)
 endforeach()
+INSTALL (FILES "D:/Users/b/Documents/C++/PerceptivePresenter/DepthSenseSDK-1.2.1.840-win32-VS2010-Release-redist_signed.exe" DESTINATION runtime)
+INSTALL (FILES "D:/Users/b/Documents/C++/PerceptivePresenter/intel_pc_sdk_runtime_ia32_8779.msi" DESTINATION runtime)
 
 #setup installers
 set(CPACK_PACKAGE_NAME "PresenterHelper")
@@ -69,7 +71,8 @@ set(CPACK_NSIS_CONTACT "Bogdan Cristea <cristeab\@gmail.com>")
 set(CPACK_NSIS_INSTALLED_ICON_NAME "PresenterHelper.exe")
 set(CPACK_NSIS_MUI_ICON "${CMAKE_SOURCE_DIR}/icons/PresenterHelper.ico")
 set(CPACK_NSIS_MUI_UNIICON "${CMAKE_SOURCE_DIR}/icons/PresenterHelper.ico")
-set(CPACK_NSIS_EXTRA_INSTALL_COMMANDS "
+set(CPACK_NSIS_EXTRA_INSTALL_COMMANDS "ExecWait '\\\"$INSTDIR\\\\runtime\\\\DepthSenseSDK-1.2.1.840-win32-VS2010-Release-redist_signed.exe\\\"'
+  ExecWait 'msiexec /i \\\"$INSTDIR\\\\runtime\\\\intel_pc_sdk_runtime_ia32_8779.msi\\\"'
   CreateShortCut \\\"$DESKTOP\\\\PresenterHelper.lnk\\\" \\\"$INSTDIR\\\\PresenterHelper.exe\\\" \\\"\\\" \\\"$INSTDIR\\\\PresenterHelper.ico\\\"
   CreateShortCut \\\"$SMPROGRAMS\\\\PresenterHelper.lnk\\\" \\\"$INSTDIR\\\\PresenterHelper.exe\\\" \\\"\\\" \\\"$INSTDIR\\\\PresenterHelper.ico\\\"")
 set(CPACK_NSIS_EXTRA_UNINSTALL_COMMANDS "Delete \\\"$DESKTOP\\\\PresenterHelper.lnk\\\"

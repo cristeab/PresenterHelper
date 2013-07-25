@@ -104,6 +104,7 @@ void ConfigDialog::onBrowse()
 	QFileDialog openFile(NULL, "Select an Image File");
 	openFile.setFileMode(QFileDialog::ExistingFile);
 	openFile.setViewMode(QFileDialog::Detail);
+	openFile.setNameFilter("*.png *.jpg *.jpeg");
 	QStringList fileNames;
 	if (openFile.exec())
 	{
@@ -114,6 +115,9 @@ void ConfigDialog::onBrowse()
 			if (!icon.isNull())
 			{
 				int nbItems = icons.count();
+				if (nbItems < ui->comboBoxPointerIcon->count()) {
+					ui->comboBoxPointerIcon->removeItem(nbItems);
+				}
 				ui->comboBoxPointerIcon->insertItem(nbItems, icon, fileNames[0]);
 				ui->comboBoxPointerIcon->setCurrentIndex(nbItems);
 			}
